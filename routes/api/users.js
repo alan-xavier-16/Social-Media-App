@@ -1,4 +1,4 @@
-/*Routes for register, add, etc. for Users*/
+/*Routes for register a Users*/
 const express = require("express");
 const router = express.Router();
 const gravatar = require("gravatar");
@@ -59,7 +59,7 @@ router.post(
       user.password = await bcrypt.hash(password, salt);
       /* Save User to Database */
       await user.save();
-      /*Gets User ID only from the request payload, signs the token to the user and returns the token to the client*/
+      /*Creates payload needed for jwt module and sets the id to the mongoDB generated id, signs the token to the user and returns the token to the client*/
       const payload = {
         user: {
           id: user.id
