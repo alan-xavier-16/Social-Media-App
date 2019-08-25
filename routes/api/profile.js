@@ -1,14 +1,32 @@
 /*Routes for Profiles, such as Create, Update, Delete, etc.*/
 const express = require("express");
 const router = express.Router();
+const auth = require("../../middleware/auth");
+
+const User = require("../../models/User");
+const Profile = require("../../models/Profile");
 
 /* 
-@route    GET api/profile 
-@desc     Profile route
-@access   Public
+@route    GET api/profile/me
+@desc     Get current user's profile
+@access   Private
+
+Finds profile related to user by id and populates with the name of the user and avatar
 */
-router.get("/", (req, res) => {
-  res.send("Profile route");
+router.get("/me", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id }).populate(
+      "user",
+      ["name", "avatar"]
+    );
+    if (!profile) {
+      return res.status(400).json({ msg: "There is no profile for this user" });
+    }
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
 });
 
 module.exports = router;
