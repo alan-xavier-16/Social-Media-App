@@ -11,7 +11,6 @@ const Profile = require("../../models/Profile");
 @route    GET api/profile/me
 @desc     Get current user's profile
 @access   Private
-Finds profile related to user by id and populates with the name of the user and avatar
 */
 router.get("/me", auth, async (req, res) => {
   try {
@@ -110,5 +109,45 @@ router.post(
     }
   }
 );
+
+/* 
+@route    GET api/profile
+@desc     Get ALL profiles
+@access   Public
+*/
+router.get("/", async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+/* 
+@route    GET api/profile/user/:user_id
+@desc     Get profile by user ID
+@access   Public
+*/
+router.get("/user/:user_id", async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.params.user_id
+    }).populate("user", ["name", "avatar"]);
+
+    if (!profile) {
+      return res.status(400).json({ msg: "Profile not found" });
+    }
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === "ObjectId") {
+      return res.status(400).json({ msg: "Profile not found" });
+    }
+    res.status(500).send("Server Error");
+  }
+});
 
 module.exports = router;
