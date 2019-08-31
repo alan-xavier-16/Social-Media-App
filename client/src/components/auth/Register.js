@@ -1,5 +1,6 @@
 /*Register a New User */
 import React, { Fragment, useState } from "react";
+import axios from "axios";
 
 const Register = () => {
   /*Set initial state of form with fields blank */
@@ -16,12 +17,29 @@ const Register = () => {
   };
 
   /*Handle Form Submit */
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     if (password !== password2) {
       console.log("Passwords do not Match");
     } else {
-      console.log(formData);
+      /*Testing out Backend with React */
+      const newUser = {
+        name,
+        email,
+        password
+      };
+      try {
+        const config = {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        };
+        const body = JSON.stringify(newUser);
+        const res = await axios.post("/api/users", body, config);
+        console.log(res.data);
+      } catch (err) {
+        console.error(err.response.data);
+      }
     }
   };
 
