@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { Route, Switch } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
 import "./App.css";
@@ -7,7 +8,7 @@ const App = () => {
   return (
     <Fragment>
       <Navbar />
-      <Landing />
+      <Route exact path="/" component={Landing} />
     </Fragment>
   );
 };
