@@ -1,6 +1,6 @@
 /*Register a New User */
 import React, { Fragment, useState } from "react";
-import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   /*Set initial state of form with fields blank */
@@ -22,24 +22,7 @@ const Register = () => {
     if (password !== password2) {
       console.log("Passwords do not Match");
     } else {
-      /*Testing out Backend with React */
-      const newUser = {
-        name,
-        email,
-        password
-      };
-      try {
-        const config = {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        };
-        const body = JSON.stringify(newUser);
-        const res = await axios.post("/api/users", body, config);
-        console.log(res.data);
-      } catch (err) {
-        console.error(err.response.data);
-      }
+      console.log("SUCCESS");
     }
   };
 
@@ -107,7 +90,7 @@ const Register = () => {
       </form>
 
       <p className="my-1">
-        Already have an account? <a href="login.html">Sign In</a>
+        Already have an account? <Link to="/login">Sign In</Link>
       </p>
     </Fragment>
   );
