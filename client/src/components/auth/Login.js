@@ -1,13 +1,18 @@
 /*Login Page */
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { login } from "../../actions/auth";
 
-const Login = () => {
+const Login = ({ login, isAuthenticated }) => {
   /*Set initial state of form with fields blank */
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
+
+  const { email, password } = formData;
 
   /*Handle Form Logic */
   const handleChange = e => {
@@ -17,10 +22,14 @@ const Login = () => {
   /*Handle Form Submit */
   const handleSubmit = async e => {
     e.preventDefault();
-    console.log("SUCCESS");
+    login({ email, password });
   };
 
-  const { email, password } = formData;
+  /* Redirect on Login Success */
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
+
   return (
     <Fragment>
       <h1 className="large text-primary">Sign In</h1>
@@ -63,4 +72,17 @@ const Login = () => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+};
+
+/* GETS AUTH STATE */
+const mapStatetoProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(
+  mapStatetoProps,
+  { login }
+)(Login);
