@@ -7,7 +7,7 @@ import Login from "./components/auth/Login";
 import "./App.css";
 
 /*REDUX IMPORTS*/
-import { Provider } from "react-redux"; //Connects React and Redux
+import { Provider } from "react-redux"; //Connects React and Redux Store
 import store from "./store";
 
 const App = () => {
