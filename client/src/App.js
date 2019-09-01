@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
@@ -10,8 +10,19 @@ import "./App.css";
 /*REDUX IMPORTS*/
 import { Provider } from "react-redux"; //Connects React and Redux Store
 import store from "./store";
+import { loadUser } from "./actions/auth";
+import setAuthToken from "./utils/setAuthToken";
+
+/* SET GLOBAL HEADER FOR ALL ROUTES */
+if (localStorage.token) {
+  setAuthToken(localStorage.token); // Sets the global header with token for authentication
+}
 
 const App = () => {
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []); // Empty braces simulates componentDidMount and componentDidUnmount so it runs only ONCE
+
   return (
     <Provider store={store}>
       <Fragment>
