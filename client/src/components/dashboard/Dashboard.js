@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Spinner from "../layout/Spinner";
+import DashboardActions from "./DashboardActions";
 
 import { connect } from "react-redux";
 import { getCurrentProfile } from "../../actions/profile";
@@ -26,7 +27,9 @@ const Dashboard = ({
       </p>
 
       {profile !== null ? (
-        <Fragment>Has a Profile</Fragment>
+        <Fragment>
+          <DashboardActions />
+        </Fragment>
       ) : (
         <Fragment>
           <p>
