@@ -1,6 +1,5 @@
 /*
-Manages the STATE and ACTIONS for:
-  1. Registration
+Manages the STATE and ACTIONS for Registration and Authentication
 */
 
 import {
